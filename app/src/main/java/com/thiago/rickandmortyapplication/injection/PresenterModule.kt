@@ -1,8 +1,7 @@
 package com.thiago.rickandmortyapplication.injection
 
-import android.app.Application
-import com.thiago.rickandmortyapplication.MainPresenter
-import com.thiago.rickandmortyapplication.repository.RAMRepository
+import com.thiago.rickandmortyapplication.CharacterPresenter
+import com.thiago.rickandmortyapplication.repository.RickAndMortyRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -12,7 +11,7 @@ class PresenterModule {
 
     @Provides
     @Singleton
-    fun providesMainPresenter(repository: RAMRepository): MainPresenter {
-        return MainPresenter(repository)
+    fun providesMainPresenter(repository: RickAndMortyRepository): CharacterPresenter {
+        return CharacterPresenter(repository)
     }
 }

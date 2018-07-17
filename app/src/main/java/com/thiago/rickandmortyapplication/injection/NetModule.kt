@@ -8,7 +8,7 @@ import dagger.Provides
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import android.app.Application
-import com.thiago.rickandmortyapplication.repository.RAMRepository
+import com.thiago.rickandmortyapplication.repository.RickAndMortyRepository
 import dagger.Module
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Cache
@@ -62,7 +62,7 @@ class NetModule(var mBaseUrl: String) {
 
     @Provides
     @Singleton
-    fun providesRAMRepository(retrofitFactory: IRetrofitFactory): RAMRepository {
-        return RAMRepository(retrofitFactory)
+    fun providesRAMRepository(retrofitFactory: IRetrofitFactory): RickAndMortyRepository {
+        return RickAndMortyRepository(retrofitFactory)
     }
 }

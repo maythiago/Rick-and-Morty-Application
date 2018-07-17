@@ -1,6 +1,6 @@
 package com.thiago.rickandmortyapplication
 
-object MainContract {
+object CharacterContract {
     interface View {
 
     }

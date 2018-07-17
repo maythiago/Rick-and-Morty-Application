@@ -3,8 +3,9 @@
 buildscript {
     ext.kotlin_version = '1.2.50'
     repositories {
-        google()
         jcenter()
+        maven { url 'https://maven.google.com' }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0-alpha03'
@@ -14,11 +15,10 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
 allprojects {
     repositories {
-        google()
         jcenter()
+        maven { url 'https://maven.google.com' }
     }
 }
 
@@ -37,7 +37,10 @@ ext {
             rxRetrofitAdapter       : "2.4.0",
             rxJava                  : "2.0.2",
             rxAndroid               : "2.0.2",
-            okhttpLogginInterception: "3.11.0"
+            okhttpLogginInterception: "3.11.0",
+            paging                  : "1.0.0",
+            pagingRx                : "1.0.0-rc1",
+            lifecycle       : "1.1.1"
+
     ]
 }
-

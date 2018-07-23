@@ -20,6 +20,7 @@ class CharacterActivity : BaseActivity(), CharacterContract.View, OnListFragment
 
     override fun onCreateComponent(baseApplication: BaseApplication) {
         baseApplication.component!!.inject(this)
+        
 
     }
 
@@ -27,7 +28,6 @@ class CharacterActivity : BaseActivity(), CharacterContract.View, OnListFragment
         super.onCreate(savedInstanceState)
         setContentView(R.layout.character_activity)
         supportFragmentManager.beginTransaction().replace(list.id, CharacterListFragment.newInstance(1)).commit()
-
     }
 
     companion object {

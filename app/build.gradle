@@ -19,7 +19,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules-retrofit.pro',
+                    'proguard-rules-glide.pro',
+                    'proguard-rules-okhttp.pro'
+
         }
     }
 }
@@ -32,6 +36,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // Dagger 2
     implementation "com.google.dagger:dagger:$libraries.dagger"
     kapt "com.google.dagger:dagger-compiler:$libraries.dagger_compiler"
     //Retrofit
@@ -45,12 +50,18 @@ dependencies {
     //Gson
     implementation "com.google.code.gson:gson:$libraries.gson"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-
+    // Architecture components
     implementation "android.arch.lifecycle:extensions:$libraries.lifecycle"
     implementation "android.arch.paging:runtime:$libraries.paging"
-
-    // optional - RxJava support, currently in release candidate
     implementation "android.arch.paging:rxjava2:$libraries.pagingRx"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$libraries.glide"
+    kapt "com.github.bumptech.glide:compiler:$libraries.glide"
+    implementation "com.squareup.okhttp3:okhttp:$libraries.okhttp"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$libraries.glide"
+
+
 }
 
 

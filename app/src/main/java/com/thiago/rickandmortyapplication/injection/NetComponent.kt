@@ -13,5 +13,4 @@ interface NetComponent {
     fun inject(characterActivity: CharacterActivity)
     fun inject(characterListFragment: CharacterListFragment)
     fun inject(presenter: CharacterListViewModel)
-
 }

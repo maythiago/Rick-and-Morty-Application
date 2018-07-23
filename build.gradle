@@ -38,9 +38,10 @@ ext {
             rxJava                  : "2.0.2",
             rxAndroid               : "2.0.2",
             okhttpLogginInterception: "3.11.0",
+            okhttp                  : "3.11.0",
             paging                  : "1.0.0",
             pagingRx                : "1.0.0-rc1",
-            lifecycle       : "1.1.1"
-
+            lifecycle               : "1.1.1",
+            glide                   : "4.7.1"
     ]
 }

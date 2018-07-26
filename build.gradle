@@ -42,6 +42,12 @@ ext {
             paging                  : "1.0.0",
             pagingRx                : "1.0.0-rc1",
             lifecycle               : "1.1.1",
-            glide                   : "4.7.1"
+            glide                   : "4.7.1",
+            okhttpWebMockServer     : "3.11.0",
+            retrofitWebMockServer   : "2.4.0",
+            junitVersion            : "4.12",
+            espressoVersion         : '3.0.1'
+
+
     ]
 }

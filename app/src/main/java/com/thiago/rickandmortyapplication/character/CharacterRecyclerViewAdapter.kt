@@ -59,6 +59,11 @@ class CharacterRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int = mValues.size
+    fun clear() {
+        val count = itemCount
+        mValues.clear()
+        notifyItemRangeRemoved(0, count)
+    }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val image: ImageView = mView.ivAvatar

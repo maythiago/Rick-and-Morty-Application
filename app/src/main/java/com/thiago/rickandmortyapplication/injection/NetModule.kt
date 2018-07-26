@@ -1,20 +1,20 @@
 package com.thiago.rickandmortyapplication.injection
 
-import retrofit2.Retrofit
-import okhttp3.OkHttpClient
-import com.google.gson.Gson
-import javax.inject.Singleton
-import dagger.Provides
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
 import android.app.Application
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.thiago.rickandmortyapplication.BuildConfig
+import com.thiago.rickandmortyapplication.IdlingResources
 import com.thiago.rickandmortyapplication.repository.RickAndMortyRepository
 import dagger.Module
-import io.reactivex.schedulers.Schedulers
+import dagger.Provides
 import okhttp3.Cache
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.GsonConverterFactory
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.Retrofit
+import javax.inject.Singleton
 
 
 @Module
@@ -39,10 +39,15 @@ class NetModule(var mBaseUrl: String) {
     @Provides
     @Singleton
     fun provideOkhttpClient(cache: Cache): OkHttpClient {
-        val client = OkHttpClient.Builder()
-        client.addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
-        client.cache(cache)
-        return client.build()
+        val builder = OkHttpClient.Builder()
+        builder.addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+//        client.cache(cache)
+
+        var client = builder.build()
+        if (BuildConfig.DEBUG) {
+            IdlingResources.registerOkHttp(client)
+        }
+        return client
     }
 
     @Provides
@@ -52,7 +57,7 @@ class NetModule(var mBaseUrl: String) {
             override fun get(): Retrofit {
                 return Retrofit.Builder()
                         .addConverterFactory(GsonConverterFactory.create(gson))
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.newThread()))
+//                        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.newThread()))
                         .baseUrl(mBaseUrl)
                         .client(okHttpClient)
                         .build()

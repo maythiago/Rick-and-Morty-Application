@@ -6,13 +6,13 @@ import com.thiago.rickandmortyapplication.injection.DaggerNetComponent
 import com.thiago.rickandmortyapplication.injection.NetComponent
 import com.thiago.rickandmortyapplication.injection.NetModule
 
-class BaseApplication : Application() {
+open class BaseApplication : Application() {
     var component: NetComponent? = null
     override fun onCreate() {
         super.onCreate()
         component = DaggerNetComponent.builder()
                 .appModule(AppModule(this))
-                .netModule(NetModule("https://rickandmortyapi.com/api/"))
+                .netModule(NetModule("http://localhost:8080/"/*"https://rickandmortyapi.com/api/"*/))
                 .build()
     }
 

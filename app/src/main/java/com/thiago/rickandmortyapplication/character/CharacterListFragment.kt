@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,7 @@ import com.thiago.rickandmortyapplication.R
 import com.thiago.rickandmortyapplication.base.BaseApplication
 import com.thiago.rickandmortyapplication.model.CharacterModel
 import kotlinx.android.synthetic.main.fragment_characterlist_list.*
+import kotlinx.android.synthetic.main.fragment_characterlist_list.view.*
 
 /**
  * A fragment representing a list of Items.
@@ -43,7 +43,18 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
             Toast.makeText(activity, it ?: "Ocorreu um erro", Toast.LENGTH_SHORT).show()
         })
         onCreate.data.observe(this, Observer { response ->
-            val adapter = list.adapter as CharacterRecyclerViewAdapter
+            if (response?.results?.isEmpty() != false) {
+                val adapter: CharacterRecyclerViewAdapter = rvCharacters.adapter as CharacterRecyclerViewAdapter
+                if (adapter.itemCount > 0) {
+                    adapter.clear()
+                }
+                rvCharacters.visibility = View.GONE
+                tvEmptyList.visibility = View.VISIBLE
+            } else {
+                rvCharacters.visibility = View.VISIBLE
+                tvEmptyList.visibility = View.GONE
+            }
+            val adapter = rvCharacters.adapter as CharacterRecyclerViewAdapter
             response?.results?.let {
                 adapter.addItems(it)
             }
@@ -62,19 +73,14 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_characterlist_list, container, false)
-
-        // Set the adapter
-        if (view is RecyclerView) {
-            view.let { x ->
-                x.layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(x.context)
-                    else -> GridLayoutManager(x.context, columnCount)
-                }
-                x.adapter = CharacterRecyclerViewAdapter(emptyList<CharacterModel>().toMutableList(),
-                        listener)
-                x.addItemDecoration(DividerItemDecoration(x.context, DividerItemDecoration.VERTICAL))
-
+        view.rvCharacters.let { x ->
+            x.layoutManager = when {
+                columnCount <= 1 -> LinearLayoutManager(x.context)
+                else -> GridLayoutManager(x.context, columnCount)
             }
+            x.adapter = CharacterRecyclerViewAdapter(emptyList<CharacterModel>().toMutableList(),
+                    listener)
+            x.addItemDecoration(DividerItemDecoration(x.context, DividerItemDecoration.VERTICAL))
         }
         return view
     }

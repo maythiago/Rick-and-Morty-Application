@@ -9,11 +9,13 @@ import com.thiago.rickandmortyapplication.IdlingResources
 import com.thiago.rickandmortyapplication.repository.RickAndMortyRepository
 import dagger.Module
 import dagger.Provides
+import io.reactivex.schedulers.Schedulers
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.GsonConverterFactory
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Singleton
 
 
@@ -57,7 +59,7 @@ class NetModule(var mBaseUrl: String) {
             override fun get(): Retrofit {
                 return Retrofit.Builder()
                         .addConverterFactory(GsonConverterFactory.create(gson))
-//                        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.newThread()))
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.newThread()))
                         .baseUrl(mBaseUrl)
                         .client(okHttpClient)
                         .build()

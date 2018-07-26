@@ -1,5 +1,6 @@
 package com.thiago.rickandmortyapplication
 
+import android.content.pm.ActivityInfo
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -48,11 +49,32 @@ class CharacterActivityTest {
     }
 
     @Test
+    fun whenResearchCharactersCleanOlds() {
+        val response = MockResponse()
+                .addHeader("Content-Type", "application/jsonSingleCharacter; charset=utf-8")
+                .addHeader("Cache-Control", "no-cache")
+                .setBody(jsonMultipleCharacter)
+        val emptyResponse = MockResponse()
+                .addHeader("Content-Type", "application/jsonSingleCharacter; charset=utf-8")
+                .addHeader("Cache-Control", "no-cache")
+                .setBody("{}")
+                .setResponseCode(204)
+        server.enqueue(response)
+        server.enqueue(emptyResponse)
+        var launchActivity = activityRule.launchActivity(null)
+        onView(withText("Toxic Rick1")).check(matches(isDisplayed()))
+        onView(withText("Toxic Rick2")).check(matches(isDisplayed()))
+        launchActivity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        onView(withText("Ops! We do not found a character")).check(matches(isDisplayed()))
+    }
+
+    @Test
     fun whenNoCharacterFoundShows404() {
         val response = MockResponse()
                 .addHeader("Content-Type", "application/jsonSingleCharacter; charset=utf-8")
                 .addHeader("Cache-Control", "no-cache")
-                .setBody("{}")
+                .setResponseCode(404)
+                .setBody("{\"error\":\"There is nothing here\"}")
         server.enqueue(response)
 
         activityRule.launchActivity(null)

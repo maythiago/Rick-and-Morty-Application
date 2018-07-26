@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,7 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onCreateComponent()
-
+        Log.i("CHARACTER", "BIIIIIRL")
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
@@ -41,6 +42,7 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
         var onCreate = presenter.onCreate()
         onCreate.networkErrors.observe(this, Observer {
             Toast.makeText(activity, it ?: "Ocorreu um erro", Toast.LENGTH_SHORT).show()
+
         })
         onCreate.data.observe(this, Observer { response ->
             if (response?.results?.isEmpty() != false) {

@@ -1,9 +1,9 @@
 {
   "info": {
-    "count": 394,
-    "pages": 20,
-    "next": "https://rickandmortyapi.com/api/character/?page=20",
-    "prev": "https://rickandmortyapi.com/api/character/?page=18"
+    "count": 2,
+    "pages": 1,
+    "next": "",
+    "prev": ""
   },
   "results": [
     {

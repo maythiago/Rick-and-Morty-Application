@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.thiago.rickandmortyapplication.R
 import com.thiago.rickandmortyapplication.base.BaseApplication
-import com.thiago.rickandmortyapplication.model.CharacterModel
 import kotlinx.android.synthetic.main.fragment_characterlist_list.*
 import kotlinx.android.synthetic.main.fragment_characterlist_list.view.*
 
@@ -25,10 +24,14 @@ import kotlinx.android.synthetic.main.fragment_characterlist_list.view.*
  * [CharacterListFragment.OnListFragmentInteractionListener] interface.
  */
 class CharacterListFragment : Fragment(), CharacterListContract.View {
-    private val presenter: CharacterListViewModel by lazy { ViewModelProviders.of(this).get(CharacterListViewModel::class.java) }
+    private val presenter: CharacterListViewModel by lazy {
+        ViewModelProviders.of(this).get(CharacterListViewModel::class.java)}
 
     private var columnCount = 1
 
+    private val mAdapter by lazy {
+        CharacterRecyclerViewAdapter(listener)
+    }
     private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +48,10 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
 
         })
         onCreate.data.observe(this, Observer { response ->
+
             if (response?.results?.isEmpty() != false) {
-                val adapter: CharacterRecyclerViewAdapter = rvCharacters.adapter as CharacterRecyclerViewAdapter
-                if (adapter.itemCount > 0) {
-                    adapter.clear()
+                if (mAdapter.itemCount > 0) {
+                    mAdapter.clear()
                 }
                 rvCharacters.visibility = View.GONE
                 tvEmptyList.visibility = View.VISIBLE
@@ -56,10 +59,9 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
                 rvCharacters.visibility = View.VISIBLE
                 tvEmptyList.visibility = View.GONE
             }
-            val adapter = rvCharacters.adapter as CharacterRecyclerViewAdapter
-            response?.results?.let {
-                adapter.addItems(it)
-            }
+        })
+        presenter.concertList.observe(this, Observer {
+            mAdapter.submitList(it)
         })
 
     }
@@ -80,8 +82,7 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
                 columnCount <= 1 -> LinearLayoutManager(x.context)
                 else -> GridLayoutManager(x.context, columnCount)
             }
-            x.adapter = CharacterRecyclerViewAdapter(emptyList<CharacterModel>().toMutableList(),
-                    listener)
+            x.adapter = mAdapter
             x.addItemDecoration(DividerItemDecoration(x.context, DividerItemDecoration.VERTICAL))
         }
         return view

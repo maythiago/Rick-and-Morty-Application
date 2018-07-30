@@ -24,6 +24,13 @@ class RickAndMortyRepository @Inject constructor(val retrofitFactory: IRetrofitF
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun getNextCharacters(nextUrl: String): Observable<AllCharactersModel> {
+        return api
+                .getCharacters(nextUrl)
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+
     @SuppressLint("CheckResult")
     fun getAllCharacters(query: String): RequestResult<AllCharactersModel> {
         val data = MutableLiveData<AllCharactersModel>()
@@ -47,3 +54,4 @@ class RickAndMortyRepository @Inject constructor(val retrofitFactory: IRetrofitF
     }
 
 }
+

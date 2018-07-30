@@ -10,6 +10,7 @@ open class BaseApplication : Application() {
     var component: NetComponent? = null
     override fun onCreate() {
         super.onCreate()
+        // TODO Actually the baseUrl is setted manually in instrumentation test
         component = DaggerNetComponent.builder()
                 .appModule(AppModule(this))
                 .netModule(NetModule("http://localhost:8080/"/*"https://rickandmortyapi.com/api/"*/))

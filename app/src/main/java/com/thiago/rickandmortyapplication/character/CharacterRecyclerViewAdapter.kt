@@ -1,23 +1,19 @@
 package com.thiago.rickandmortyapplication.character
 
-import android.support.v7.widget.RecyclerView
+import android.arch.paging.PagedListAdapter
+import android.support.v7.util.DiffUtil
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.thiago.rickandmortyapplication.R
 import com.thiago.rickandmortyapplication.injection.GlideApp
 
 
 import com.thiago.rickandmortyapplication.model.CharacterModel
 
-import kotlinx.android.synthetic.main.fragment_characterlist.view.*
-
 class CharacterRecyclerViewAdapter(
-        private val mValues: MutableList<CharacterModel>,
         private val mListener: OnListFragmentInteractionListener?)
-    : RecyclerView.Adapter<CharacterRecyclerViewAdapter.ViewHolder>() {
+    : PagedListAdapter<CharacterModel, ViewHolder>(DIFF_CALLBACK) {
 
     private val mOnClickListener: View.OnClickListener
 
@@ -37,11 +33,12 @@ class CharacterRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
+        val item = getItem(position)!!
         holder.name.text = item.name
         GlideApp
                 .with(holder.mView.context)
                 .load(item.imageUrl)
+                .placeholder(R.drawable.rick_and_morty_error)
                 .error(R.drawable.rick_and_morty_error)
                 .centerInside()
                 .into(holder.image)
@@ -51,27 +48,27 @@ class CharacterRecyclerViewAdapter(
             tag = item
             setOnClickListener(mOnClickListener)
         }
+
     }
 
-    fun addItems(items: Array<CharacterModel>) {
-        mValues.addAll(items)
-        notifyItemRangeInserted(itemCount, itemCount + items.size)
-    }
-
-    override fun getItemCount(): Int = mValues.size
     fun clear() {
-        val count = itemCount
-        mValues.clear()
-        notifyItemRangeRemoved(0, count)
+        currentList?.clear()
+        notifyItemRangeRemoved(0, currentList?.size ?: 0)
+
     }
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val image: ImageView = mView.ivAvatar
-        val name: TextView = mView.tvTitle
-        val specie: TextView = mView.tvSubtitle
+    companion object {
+        private val DIFF_CALLBACK = object :
+                DiffUtil.ItemCallback<CharacterModel>() {
+            // Concert details may have changed if reloaded from the database,
+            // but ID is fixed.
+            override fun areItemsTheSame(oldConcert: CharacterModel,
+                                         newConcert: CharacterModel): Boolean =
+                    oldConcert.id == newConcert.id
 
-        override fun toString(): String {
-            return super.toString() + " '" + name.text + "'"
+            override fun areContentsTheSame(oldConcert: CharacterModel,
+                                            newConcert: CharacterModel): Boolean =
+                    oldConcert == newConcert
         }
     }
 }

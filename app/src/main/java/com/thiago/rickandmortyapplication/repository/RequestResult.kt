@@ -1,6 +1,7 @@
 package com.thiago.rickandmortyapplication.repository
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
+
 
 data class RequestResult<T>(
         val data: LiveData<T>,

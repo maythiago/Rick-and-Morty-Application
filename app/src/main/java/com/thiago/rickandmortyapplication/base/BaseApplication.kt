@@ -13,7 +13,7 @@ open class BaseApplication : Application() {
         // TODO Actually the baseUrl is setted manually in instrumentation test
         component = DaggerNetComponent.builder()
                 .appModule(AppModule(this))
-                .netModule(NetModule("http://localhost:8080/"/*"https://rickandmortyapi.com/api/"*/))
+                .netModule(NetModule(/*"http://localhost:8080/"*/"https://rickandmortyapi.com/api/"))
                 .build()
     }
 

@@ -1,7 +1,7 @@
 package com.thiago.rickandmortyapplication.repository
 
-import android.arch.paging.PagedList
 import android.util.Log
+import androidx.paging.PagedList
 import com.thiago.rickandmortyapplication.model.AllCharactersModel
 import javax.inject.Inject
 

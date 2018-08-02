@@ -1,7 +1,7 @@
 package com.thiago.rickandmortyapplication.repository
 
-import android.arch.paging.PageKeyedDataSource
 import android.util.Log
+import androidx.paging.PageKeyedDataSource
 import com.thiago.rickandmortyapplication.CharacterPresenter
 import com.thiago.rickandmortyapplication.model.CharacterModel
 

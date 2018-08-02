@@ -6,6 +6,7 @@ buildscript {
         jcenter()
         maven { url 'https://maven.google.com' }
 
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0-alpha03'
@@ -19,6 +20,10 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'https://maven.google.com' }
+        maven {
+            name 'glide-snapshot'
+            url 'http://oss.sonatype.org/content/repositories/snapshots'
+        }
     }
 }
 
@@ -28,7 +33,7 @@ task clean(type: Delete) {
 ext {
 
     libraries = [
-            supportVersion          : "27.1.1",
+            supportVersion          : "1.0.0-beta01",
             retrofit                : "2.4.0",
             retrofitConverter       : "2.0.0-beta3",
             gson                    : "2.8.2",
@@ -39,14 +44,13 @@ ext {
             rxAndroid               : "2.0.2",
             okhttpLogginInterception: "3.11.0",
             okhttp                  : "3.11.0",
-            paging                  : "1.0.0",
-            pagingRx                : "1.0.0-rc1",
-            lifecycle               : "1.1.1",
-            glide                   : "4.7.1",
+            paging                  : "2.0.0-beta01",
+            lifecycle               : "2.0.0-beta01",
+            glide                   : "4.8.0-SNAPSHOT",
             okhttpWebMockServer     : "3.11.0",
             retrofitWebMockServer   : "2.4.0",
             junitVersion            : "4.12",
-            espressoVersion         : '3.0.1'
+            espressoVersion         : "3.1.0-alpha4"
 
 
     ]

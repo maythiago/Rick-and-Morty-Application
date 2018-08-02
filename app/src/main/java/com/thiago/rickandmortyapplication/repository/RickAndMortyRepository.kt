@@ -1,8 +1,9 @@
 package com.thiago.rickandmortyapplication.repository
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.MutableLiveData
+
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.thiago.rickandmortyapplication.CharacterPresenter
 import com.thiago.rickandmortyapplication.injection.IRetrofitFactory
 import com.thiago.rickandmortyapplication.model.AllCharactersModel

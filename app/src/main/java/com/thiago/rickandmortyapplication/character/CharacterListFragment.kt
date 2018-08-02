@@ -1,18 +1,20 @@
 package com.thiago.rickandmortyapplication.character
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.thiago.rickandmortyapplication.R
 import com.thiago.rickandmortyapplication.base.BaseApplication
 import kotlinx.android.synthetic.main.fragment_characterlist_list.*
@@ -25,7 +27,8 @@ import kotlinx.android.synthetic.main.fragment_characterlist_list.view.*
  */
 class CharacterListFragment : Fragment(), CharacterListContract.View {
     private val presenter: CharacterListViewModel by lazy {
-        ViewModelProviders.of(this).get(CharacterListViewModel::class.java)}
+        ViewModelProviders.of(this).get(CharacterListViewModel::class.java)
+    }
 
     private var columnCount = 1
 

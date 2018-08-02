@@ -1,19 +1,18 @@
 package com.thiago.rickandmortyapplication.character
 
-import android.arch.paging.PagedListAdapter
-import android.support.v7.util.DiffUtil
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.thiago.rickandmortyapplication.R
 import com.thiago.rickandmortyapplication.injection.GlideApp
-
-
 import com.thiago.rickandmortyapplication.model.CharacterModel
 
 class CharacterRecyclerViewAdapter(
         private val mListener: OnListFragmentInteractionListener?)
-    : PagedListAdapter<CharacterModel, ViewHolder>(DIFF_CALLBACK) {
+    : PagedListAdapter<CharacterModel, CharacterViewModel>(DIFF_CALLBACK) {
 
     private val mOnClickListener: View.OnClickListener
 
@@ -26,15 +25,14 @@ class CharacterRecyclerViewAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewModel {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_characterlist, parent, false)
-        return ViewHolder(view)
+        return CharacterViewModel(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CharacterViewModel, position: Int) {
         val item = getItem(position)!!
-        holder.name.text = item.name
         GlideApp
                 .with(holder.mView.context)
                 .load(item.imageUrl)
@@ -43,9 +41,7 @@ class CharacterRecyclerViewAdapter(
                 .centerInside()
                 .into(holder.image)
 
-        holder.specie.text = item.species
         with(holder.mView) {
-            tag = item
             setOnClickListener(mOnClickListener)
         }
 

@@ -1,7 +1,7 @@
 package com.thiago.rickandmortyapplication.repository
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.paging.DataSource
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
 import com.thiago.rickandmortyapplication.model.CharacterModel
 
 class CharacterDataSourceFactory(val repository: RickAndMortyRepository) : DataSource.Factory<String, CharacterModel>() {

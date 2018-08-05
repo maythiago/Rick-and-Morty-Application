@@ -42,6 +42,7 @@ class CharacterRecyclerViewAdapter(
                 .into(holder.image)
 
         with(holder.mView) {
+            tag = item
             setOnClickListener(mOnClickListener)
         }
 

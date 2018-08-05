@@ -3,12 +3,10 @@ package com.thiago.rickandmortyapplication.character
 
 import android.content.Context
 import android.os.Bundle
-
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -45,25 +43,27 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
 
-        var onCreate = presenter.onCreate()
-        onCreate.networkErrors.observe(this, Observer {
-            Toast.makeText(activity, it ?: "Ocorreu um erro", Toast.LENGTH_SHORT).show()
-
-        })
-        onCreate.data.observe(this, Observer { response ->
-
-            if (response?.results?.isEmpty() != false) {
-                if (mAdapter.itemCount > 0) {
-                    mAdapter.clear()
-                }
-                rvCharacters.visibility = View.GONE
-                tvEmptyList.visibility = View.VISIBLE
-            } else {
-                rvCharacters.visibility = View.VISIBLE
-                tvEmptyList.visibility = View.GONE
-            }
-        })
+//        var onCreate = presenter.onCreate()
+//        onCreate.networkErrors.observe(this, Observer {
+//            Toast.makeText(activity, it ?: "Ocorreu um erro", Toast.LENGTH_SHORT).show()
+//
+//        })
+//        onCreate.data.observe(this, Observer { response ->
+//
+//            if (response?.results?.isEmpty() != false) {
+//                if (mAdapter.itemCount > 0) {
+//                    mAdapter.clear()
+//                }
+//                rvCharacters.visibility = View.GONE
+//                tvEmptyList.visibility = View.VISIBLE
+//            } else {
+//                rvCharacters.visibility = View.VISIBLE
+//                tvEmptyList.visibility = View.GONE
+//            }
+//        })
         presenter.concertList.observe(this, Observer {
+            rvCharacters.visibility = View.VISIBLE
+            tvEmptyList.visibility = View.GONE
             mAdapter.submitList(it)
         })
 

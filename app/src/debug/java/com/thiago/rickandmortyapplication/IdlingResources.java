@@ -8,6 +8,7 @@ public class IdlingResources {
         //TODO with migration to androidx, this lib isnt compile
 //        IdlingRegistry.getInstance().register(OkHttp3IdlingResource.create(
 //                "okhttp", client));
+
     }
 }
 

@@ -4,18 +4,17 @@ import android.app.Application
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.thiago.rickandmortyapplication.BuildConfig
 import com.thiago.rickandmortyapplication.IdlingResources
 import com.thiago.rickandmortyapplication.repository.RickAndMortyRepository
 import dagger.Module
 import dagger.Provides
-import io.reactivex.schedulers.Schedulers
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.GsonConverterFactory
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Singleton
 
 
@@ -43,7 +42,7 @@ class NetModule(var mBaseUrl: String) {
     fun provideOkhttpClient(cache: Cache): OkHttpClient {
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
-//        client.cache(cache)
+        builder.cache(cache)
 
         var client = builder.build()
         if (BuildConfig.DEBUG) {
@@ -59,7 +58,8 @@ class NetModule(var mBaseUrl: String) {
             override fun get(): Retrofit {
                 return Retrofit.Builder()
                         .addConverterFactory(GsonConverterFactory.create(gson))
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.newThread()))
+                        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+//                        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.newThread()))
                         .baseUrl(mBaseUrl)
                         .client(okHttpClient)
                         .build()

@@ -12,7 +12,7 @@ import com.thiago.rickandmortyapplication.model.CharacterModel
 
 class CharacterRecyclerViewAdapter(
         private val mListener: OnListFragmentInteractionListener?)
-    : PagedListAdapter<CharacterModel, CharacterViewModel>(DIFF_CALLBACK) {
+    : PagedListAdapter<CharacterModel, CharacterViewHolder>(DIFF_CALLBACK) {
 
     private val mOnClickListener: View.OnClickListener
 
@@ -25,21 +25,23 @@ class CharacterRecyclerViewAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewModel {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_characterlist, parent, false)
-        return CharacterViewModel(view)
+        return CharacterViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CharacterViewModel, position: Int) {
+    override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
         val item = getItem(position)!!
         GlideApp
                 .with(holder.mView.context)
                 .load(item.imageUrl)
-                .placeholder(R.drawable.rick_and_morty_error)
+                .placeholder(R.drawable.empty_image)
                 .error(R.drawable.rick_and_morty_error)
-                .centerInside()
+                .fitCenter()
                 .into(holder.image)
+
+        holder.title.text = item.name
 
         with(holder.mView) {
             tag = item

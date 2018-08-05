@@ -34,7 +34,7 @@ class RickAndMortyRepository @Inject constructor(val retrofitFactory: IRetrofitF
         val data = MutableLiveData<AllCharactersModel>()
         val errors = MutableLiveData<String>()
 //        getCharacters()
-//                .doOnSubscribe { Log.i(CharacterPresenter.TAG, "showProgress") }
+//                .doOnSubscribe { Log.i(CharacterPresenter.TAG, "initialShowProgress") }
 //                .doOnTerminate { Log.i(CharacterPresenter.TAG, "hideProgress") }
 //                .subscribe(
 //                        { response ->

@@ -1,5 +1,6 @@
 package com.thiago.rickandmortyapplication
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import com.thiago.rickandmortyapplication.base.BaseActivity
@@ -25,7 +26,15 @@ class CharacterActivity : BaseActivity(), CharacterContract.View, OnListFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.character_activity)
-        supportFragmentManager.beginTransaction().replace(rvCharacters.id, CharacterListFragment.newInstance(2)).commit()
+
+        val columnCount =
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    3
+                } else {
+                    2
+                }
+        supportFragmentManager.beginTransaction().replace(rvCharacters.id, CharacterListFragment.newInstance(columnCount)).commit()
+
     }
 
     companion object {

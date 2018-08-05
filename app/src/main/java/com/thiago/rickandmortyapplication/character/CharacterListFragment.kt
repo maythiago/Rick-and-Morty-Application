@@ -10,13 +10,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thiago.rickandmortyapplication.R
 import com.thiago.rickandmortyapplication.base.BaseApplication
 import kotlinx.android.synthetic.main.fragment_characterlist_list.*
 import kotlinx.android.synthetic.main.fragment_characterlist_list.view.*
+
 
 /**
  * A fragment representing a list of Items.
@@ -38,29 +38,20 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onCreateComponent()
-        Log.i("CHARACTER", "BIIIIIRL")
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
 
-//        var onCreate = presenter.onCreate()
-//        onCreate.networkErrors.observe(this, Observer {
-//            Toast.makeText(activity, it ?: "Ocorreu um erro", Toast.LENGTH_SHORT).show()
-//
-//        })
-//        onCreate.data.observe(this, Observer { response ->
-//
-//            if (response?.results?.isEmpty() != false) {
-//                if (mAdapter.itemCount > 0) {
-//                    mAdapter.clear()
-//                }
-//                rvCharacters.visibility = View.GONE
-//                tvEmptyList.visibility = View.VISIBLE
-//            } else {
-//                rvCharacters.visibility = View.VISIBLE
-//                tvEmptyList.visibility = View.GONE
-//            }
-//        })
+        presenter.showInitialLoading.observe(this, Observer {
+            Log.i(TAG, "showloading $it")
+            if (it) {
+                rvCharacters.visibility = View.GONE
+                tvEmptyList.visibility = View.GONE
+                pbLoadingProgress.visibility = View.VISIBLE
+            } else {
+                pbLoadingProgress.visibility = View.GONE
+            }
+        })
         presenter.concertList.observe(this, Observer {
             rvCharacters.visibility = View.VISIBLE
             tvEmptyList.visibility = View.GONE
@@ -86,7 +77,7 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
                 else -> GridLayoutManager(x.context, columnCount)
             }
             x.adapter = mAdapter
-            x.addItemDecoration(DividerItemDecoration(x.context, DividerItemDecoration.VERTICAL))
+
         }
         return view
     }
@@ -121,4 +112,3 @@ class CharacterListFragment : Fragment(), CharacterListContract.View {
                 }
     }
 }
-

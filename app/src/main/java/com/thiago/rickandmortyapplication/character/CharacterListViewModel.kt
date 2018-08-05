@@ -1,6 +1,7 @@
 package com.thiago.rickandmortyapplication.character
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -15,6 +16,10 @@ class CharacterListViewModel : ViewModel(), CharacterListContract.Presenter {
 
     val dataSourceFactory: CharacterDataSourceFactory  by lazy { CharacterDataSourceFactory(repository) }
     val concertList: LiveData<PagedList<CharacterModel>> by lazy { LivePagedListBuilder(dataSourceFactory, 25).build() }
+    val showInitialLoading: LiveData<Boolean>
+        get() = Transformations.switchMap(dataSourceFactory.sourceLiveData) {
+            it.initialShowProgress
+        }
 
     /**
      * val myConcertDataSource : DataSource.Factory<Int, Concert> =
@@ -24,8 +29,6 @@ class CharacterListViewModel : ViewModel(), CharacterListContract.Presenter {
     myConcertDataSource, /* page size */ 20).build()
      *
      * */
-    fun onCreate(){
-    }
 
     companion object {
         const val TAG = "CharacterListViewModel"

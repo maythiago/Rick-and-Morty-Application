@@ -7,7 +7,7 @@ import com.thiago.rickandmortyapplication.model.CharacterModel
 import kotlinx.coroutines.experimental.launch
 
 class PageKeyedCharacterDataSource(private val repository: RickAndMortyRepository) : PageKeyedDataSource<String, CharacterModel>() {
-    val showProgress = MutableLiveData<Boolean>()
+    val initialShowProgress = MutableLiveData<Boolean>()
     val error = MutableLiveData<Throwable>()
 
 
@@ -20,21 +20,18 @@ class PageKeyedCharacterDataSource(private val repository: RickAndMortyRepositor
     }
 
     private suspend fun loadData(callback: LoadCallback<String, CharacterModel>, params: LoadParams<String>) {
-        showProgress.postValue(true)
         try {
             val response = repository.getNextCharacters(params.key).await()
             val characters = response.results.map { it }
             callback.onResult(characters, response.info.next)
         } catch (e: Exception) {
             error.postValue(e)
-        } finally {
-            showProgress.postValue(false )
         }
 
     }
 
     private suspend fun loadInitialData(callback: LoadInitialCallback<String, CharacterModel>) {
-        showProgress.postValue(true)
+        initialShowProgress.postValue(true)
         try {
             val response = repository.getCharacters().await()
             val characters = response.results.map { it }
@@ -42,7 +39,7 @@ class PageKeyedCharacterDataSource(private val repository: RickAndMortyRepositor
         } catch (e: Exception) {
             error.postValue(e)
         } finally {
-            showProgress.postValue(false)
+            initialShowProgress.postValue(false)
         }
     }
 
